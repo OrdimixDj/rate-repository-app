@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: Constants.statusBarHeight,
     paddingBottom: 25,
-    backgroundColor: theme.colors.backgroundColor,
+    backgroundColor: theme.colors.menuBackgroundColor,
   },
   text: {
-    color: theme.colors.menuText,
+    color: theme.colors.whiteText,
     fontWeight: theme.fontWeights.bold,
   },
 });

@@ -3,8 +3,9 @@ const theme = {
     textPrimary: "#24292e",
     textSecondary: "#586069",
     primary: "#0366d6",
-    backgroundColor: "#24292e",
-    menuText: "#ffffff",
+    menuBackgroundColor: "#24292e",
+    contentBackgroundColor: "#e1e4e8",
+    whiteText: "#ffffff",
   },
   fontSizes: {
     body: 14,
