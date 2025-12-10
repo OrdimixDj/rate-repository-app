@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import AppBarTab from "./AppBarTab";
 import theme from "../theme";
 
@@ -20,8 +20,11 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={styles.flexContainer}>
-      <AppBarTab style={styles.flexItemA} text="Repository" link="/" />
-      <AppBarTab style={styles.flexItemB} text="Sign in" link="/signin" />
+      {/* flexContainer style already contained flexDirection: "row", so it wasn't necessary to put it again. */}
+      <ScrollView horizontal>
+        <AppBarTab style={styles.flexItemA} text="Repository" link="/" />
+        <AppBarTab style={styles.flexItemB} text="Sign in" link="/signin" />
+      </ScrollView>
     </View>
   );
 };
