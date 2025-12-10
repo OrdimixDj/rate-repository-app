@@ -1,4 +1,5 @@
 import { Text, Pressable, View, StyleSheet } from "react-native";
+import { Link } from "react-router-native";
 import Constants from "expo-constants";
 import theme from "../theme";
 
@@ -8,7 +9,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: Constants.statusBarHeight,
     paddingBottom: 25,
-    backgroundColor: theme.colors.menuBackgroundColor,
   },
   text: {
     color: theme.colors.whiteText,
@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ text }) => {
+const AppBarTab = ({ text, link }) => {
   return (
     <View style={styles.container}>
       {
         <Pressable>
-          <Text style={styles.text}>{text}</Text>
+          <Link to={link}>
+            <Text style={styles.text}>{text}</Text>
+          </Link>
         </Pressable>
       }
     </View>
