@@ -6,6 +6,7 @@ const theme = {
     menuBackgroundColor: "#24292e",
     contentBackgroundColor: "#e1e4e8",
     whiteText: "#ffffff",
+    errorColor: "#d73a4a",
   },
   fontSizes: {
     body: 14,
