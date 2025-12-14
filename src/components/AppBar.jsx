@@ -1,4 +1,8 @@
 import { View, StyleSheet, ScrollView } from "react-native";
+import { useQuery } from "@apollo/client/react";
+
+import { ME } from "../graphql/queries";
+
 import AppBarTab from "./AppBarTab";
 import theme from "../theme";
 
@@ -18,12 +22,25 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const { data } = useQuery(ME, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  console.log(data);
+
+  let signInComposant =
+    data && data.me ? (
+      <AppBarTab style={styles.flexItemB} text="Sign out" />
+    ) : (
+      <AppBarTab style={styles.flexItemB} text="Sign in" link="/signin" />
+    );
+
   return (
     <View style={styles.flexContainer}>
       {/* flexContainer style already contained flexDirection: "row", so it wasn't necessary to put it again. */}
       <ScrollView horizontal>
         <AppBarTab style={styles.flexItemA} text="Repository" link="/" />
-        <AppBarTab style={styles.flexItemB} text="Sign in" link="/signin" />
+        {signInComposant}
       </ScrollView>
     </View>
   );
