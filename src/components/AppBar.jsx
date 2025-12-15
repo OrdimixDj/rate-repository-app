@@ -37,7 +37,10 @@ const AppBar = () => {
         <AppBarTab style={styles.flexItemB} text="Sign out" />
       </>
     ) : (
-      <AppBarTab style={styles.flexItemB} text="Sign in" link="/signin" />
+      <>
+        <AppBarTab style={styles.flexItemB} text="Sign in" link="/sign-in" />
+        <AppBarTab style={styles.flexItemA} text="Sign up" link="/sign-up" />
+      </>
     );
 
   return (
