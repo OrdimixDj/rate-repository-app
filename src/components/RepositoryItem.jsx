@@ -3,9 +3,6 @@ import Text from "./Text";
 import theme from "../theme";
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-  },
   flexContainer: {
     padding: 15,
     display: "flex",
