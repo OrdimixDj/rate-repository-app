@@ -26,8 +26,6 @@ const AppBar = () => {
     fetchPolicy: "cache-and-network",
   });
 
-  console.log(data);
-
   let signInComposant =
     data && data.me ? (
       <AppBarTab style={styles.flexItemB} text="Sign out" />
