@@ -28,7 +28,14 @@ const AppBar = () => {
 
   let signInComposant =
     data && data.me ? (
-      <AppBarTab style={styles.flexItemB} text="Sign out" />
+      <>
+        <AppBarTab
+          style={styles.flexItemA}
+          text="Create a review"
+          link="/create-a-review"
+        />
+        <AppBarTab style={styles.flexItemB} text="Sign out" />
+      </>
     ) : (
       <AppBarTab style={styles.flexItemB} text="Sign in" link="/signin" />
     );

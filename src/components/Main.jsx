@@ -1,6 +1,7 @@
 // import Constants from "expo-constants";
 import { StyleSheet, View } from "react-native";
 import RepositoryList from "./RepositoryList";
+import ReviewForm from "./Review";
 import { Route, Routes, Navigate } from "react-router-native";
 
 import AppBar from "./AppBar";
@@ -21,6 +22,7 @@ const Main = () => {
       <AppBar />
       <Routes>
         <Route path="/" element={<RepositoryList />} />
+        <Route path="/create-a-review" element={<ReviewForm />} />
         <Route path="/repository/:id" element={<RepositoryItemDetail />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="*" element={<Navigate to="/" replace />} />
