@@ -1,5 +1,6 @@
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import { useQuery } from "@apollo/client/react";
+import { useNavigate } from "react-router-native";
 
 import Text from "./Text";
 import { GET_REPOSITORIES } from "../graphql/queries";
@@ -21,11 +22,21 @@ const RepositoryListContainer = ({ repositories }) => {
     ? repositories.edges.map((edge) => edge.node)
     : [];
 
+  const navigate = useNavigate();
+
+  const handlePress = (id) => {
+    navigate(`/repository/${id}`);
+  };
+
   return (
     <FlatList
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem repo={item} />}
+      renderItem={({ item }) => (
+        <Pressable onPress={() => handlePress(item.id)}>
+          <RepositoryItem repo={item} />
+        </Pressable>
+      )}
       keyExtractor={(item) => item.id}
     />
   );
