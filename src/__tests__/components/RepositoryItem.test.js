@@ -1,6 +1,21 @@
+import { FlatList } from "react-native";
 import { render, screen, within } from "@testing-library/react-native";
 
-import { RepositoryListContainer } from "../../components/RepositoryList";
+import RepositoryItem from "../../components/RepositoryItem";
+
+const RepositoryListContainer = ({ repositories }) => {
+  const repositoryNodes = repositories
+    ? repositories.edges.map((edge) => edge.node)
+    : [];
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      renderItem={({ item }) => <RepositoryItem repo={item} />}
+      keyExtractor={(item) => item.id}
+    />
+  );
+};
 
 describe("RepositoryList", () => {
   describe("RepositoryListContainer", () => {
