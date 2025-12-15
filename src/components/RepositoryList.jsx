@@ -1,12 +1,13 @@
+import { useState } from "react";
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
-import { useQuery } from "@apollo/client/react";
+import { Picker } from "@react-native-picker/picker";
 import { useNavigate } from "react-router-native";
 
 import Text from "./Text";
-import { GET_REPOSITORIES } from "../graphql/queries";
 
 import RepositoryItem from "./RepositoryItem";
 import theme from "../theme";
+import useRepositories from "../hooks/useRepositories";
 
 const styles = StyleSheet.create({
   separator: {
@@ -15,9 +16,32 @@ const styles = StyleSheet.create({
   },
 });
 
+const OrderByPicker = ({ selectedValue, setSelectedValue }) => {
+  return (
+    <Picker
+      selectedValue={selectedValue}
+      onValueChange={(itemValue) => setSelectedValue(itemValue)}
+    >
+      <Picker.Item label="Latest repositories" value="NORMAL" />
+      <Picker.Item
+        label="Highest rated repositories"
+        value="RATING_AVERAGE_DESC"
+      />
+      <Picker.Item
+        label="Lowest rated repositories"
+        value="RATING_AVERAGE_ASC"
+      />
+    </Picker>
+  );
+};
+
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryListContainer = ({ repositories }) => {
+const RepositoryListContainer = ({
+  selectedValue,
+  setSelectedValue,
+  repositories,
+}) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -37,15 +61,21 @@ const RepositoryListContainer = ({ repositories }) => {
           <RepositoryItem repo={item} />
         </Pressable>
       )}
+      ListHeaderComponent={() => (
+        <OrderByPicker
+          selectedValue={selectedValue}
+          setSelectedValue={setSelectedValue}
+        />
+      )}
       keyExtractor={(item) => item.id}
     />
   );
 };
 
 const RepositoryList = () => {
-  const { data, loading, error } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: "cache-and-network",
-  });
+  const [selectedValue, setSelectedValue] = useState("NORMAL");
+
+  const { data, loading, error } = useRepositories(selectedValue);
 
   if (loading) {
     return (
@@ -63,7 +93,13 @@ const RepositoryList = () => {
     );
   }
 
-  return <RepositoryListContainer repositories={data.repositories} />;
+  return (
+    <RepositoryListContainer
+      selectedValue={selectedValue}
+      setSelectedValue={setSelectedValue}
+      repositories={data.repositories}
+    />
+  );
 };
 
 export default RepositoryList;
