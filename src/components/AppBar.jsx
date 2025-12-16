@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const { data } = useQuery(ME, {
+    variables: { includeReviews: false },
     fetchPolicy: "cache-and-network",
   });
 
@@ -34,12 +35,17 @@ const AppBar = () => {
           text="Create a review"
           link="/create-a-review"
         />
+        <AppBarTab
+          style={styles.flexItemA}
+          text="My reviews"
+          link="/user-reviews"
+        />
         <AppBarTab style={styles.flexItemB} text="Sign out" />
       </>
     ) : (
       <>
-        <AppBarTab style={styles.flexItemB} text="Sign in" link="/sign-in" />
-        <AppBarTab style={styles.flexItemA} text="Sign up" link="/sign-up" />
+        <AppBarTab style={styles.flexItemA} text="Sign in" link="/sign-in" />
+        <AppBarTab style={styles.flexItemB} text="Sign up" link="/sign-up" />
       </>
     );
 
