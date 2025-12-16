@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client/react";
-import { GET_REPOSITORIES_BY_ORDER } from "../graphql/queries";
+import { GET_REPOSITORIES_BY_ORDER_AND_KEYWORD } from "../graphql/queries";
 
-const useRepositories = (orderBy) => {
+const useRepositories = (orderBy, filterKey) => {
   const getVariables = (orderBy) => {
     if (orderBy === "NORMAL") {
       return { orderBy: "CREATED_AT", orderDirection: "DESC" };
@@ -15,10 +15,15 @@ const useRepositories = (orderBy) => {
 
   let variableToUse = getVariables(orderBy);
 
-  const { data, loading, error } = useQuery(GET_REPOSITORIES_BY_ORDER, {
-    variables: variableToUse,
-    fetchPolicy: "cache-and-network",
-  });
+  variableToUse = { searchKeyword: filterKey, ...variableToUse };
+
+  const { data, loading, error } = useQuery(
+    GET_REPOSITORIES_BY_ORDER_AND_KEYWORD,
+    {
+      variables: variableToUse,
+      fetchPolicy: "cache-and-network",
+    }
+  );
 
   return { data, loading, error };
 };

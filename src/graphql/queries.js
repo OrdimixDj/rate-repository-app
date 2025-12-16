@@ -20,12 +20,9 @@ export const GET_REPOSITORIES = gql`
   }
 `;
 
-export const GET_REPOSITORIES_BY_ORDER = gql`
-  query Repositories(
-    $orderBy: AllRepositoriesOrderBy
-    $orderDirection: OrderDirection
-  ) {
-    repositories(orderBy: $orderBy, orderDirection: $orderDirection) {
+export const GET_REPOSITORIES_BY_ORDER_AND_KEYWORD = gql`
+  query Repositories($searchKeyword: String, $orderBy: AllRepositoriesOrderBy) {
+    repositories(searchKeyword: $searchKeyword, orderBy: $orderBy) {
       edges {
         node {
           id
