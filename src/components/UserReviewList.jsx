@@ -4,6 +4,7 @@ import { ME } from "../graphql/queries";
 
 import Text from "./Text";
 import ReviewItem from "./ReviewItem";
+import UserReviewButtons from "./UserReviewButtons";
 
 import theme from "../theme";
 
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 const UserReviewList = () => {
-  const { data, loading, error } = useQuery(ME, {
+  const { data, loading, error, refetch } = useQuery(ME, {
     variables: { includeReviews: true },
     fetchPolicy: "cache-and-network",
   });
@@ -57,7 +58,16 @@ const UserReviewList = () => {
   return (
     <FlatList
       data={reviewNodes}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => (
+        <>
+          <ReviewItem review={item} />
+          <UserReviewButtons
+            repositoryId={item.repositoryId}
+            reviewId={item.id}
+            refetch={refetch}
+          />
+        </>
+      )}
       ItemSeparatorComponent={ItemSeparator}
       keyExtractor={({ id }) => id}
     />

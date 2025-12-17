@@ -24,7 +24,7 @@ const validationSchema = yup.object().shape({
 const initialValues = {
   owner: "",
   name: "",
-  rate: 50,
+  rate: "",
   review: "",
 };
 
