@@ -102,6 +102,8 @@ export class RepositoryListContainer extends React.Component {
         )}
         ListHeaderComponent={this.renderHeader}
         keyExtractor={(item) => item.id}
+        onEndReached={props.onEndReach}
+        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -113,14 +115,21 @@ const RepositoryList = () => {
 
   const [debouncedFilterValue] = useDebounce(filterValue, 500);
 
-  const { data, loading, error } = useRepositories(
+  const firstVariableValue = 8;
+
+  const { repositories, fetchMore, loading, error } = useRepositories(
+    firstVariableValue,
     selectedValue,
     debouncedFilterValue
   );
 
+  const onEndReach = () => {
+    fetchMore();
+  };
+
   const navigate = useNavigate();
 
-  if (loading) {
+  if (loading && !repositories) {
     return (
       <View>
         <Text>Loading...</Text>
@@ -142,8 +151,9 @@ const RepositoryList = () => {
       setSelectedValue={setSelectedValue}
       filterValue={filterValue}
       setFilterValue={setFilterValue}
-      repositories={data.repositories}
+      repositories={repositories}
       navigate={navigate}
+      onEndReach={onEndReach}
     />
   );
 };

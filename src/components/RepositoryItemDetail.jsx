@@ -1,15 +1,15 @@
 import { Pressable, StyleSheet, FlatList } from "react-native";
 import { useParams } from "react-router-native";
 import { View } from "react-native";
+
 import RepositoryItem from "./RepositoryItem";
-import { useQuery } from "@apollo/client/react";
 import ReviewItem from "./ReviewItem";
 
 import * as Linking from "expo-linking";
 
 import Text from "./Text";
 import theme from "../theme";
-import { GET_REPOSITORY_DETAILS } from "../graphql/queries";
+import useGetRepositoryDetails from "../hooks/useGetRepositoryDetails";
 
 const styles = StyleSheet.create({
   githubButton: {
@@ -51,12 +51,15 @@ const RepositoryInfo = ({ repository }) => {
 
 const SingleRepository = () => {
   const { id } = useParams();
-  const { data, loading, error } = useQuery(GET_REPOSITORY_DETAILS, {
-    variables: { repositoryId: id },
-    fetchPolicy: "cache-and-network",
-  });
 
-  if (loading) {
+  const firstValue = 6;
+
+  const { repository, fetchMore, loading, error } = useGetRepositoryDetails(
+    firstValue,
+    id
+  );
+
+  if (loading && !repository) {
     return (
       <View>
         <Text>Loading...</Text>
@@ -74,10 +77,13 @@ const SingleRepository = () => {
 
   const ItemSeparator = () => <View style={styles.separator} />;
 
-  const repository = data.repository;
-  const reviews = data.repository.reviews;
+  const reviews = repository.reviews;
 
   const reviewNodes = reviews ? reviews.edges.map((edge) => edge.node) : [];
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <FlatList
@@ -91,6 +97,8 @@ const SingleRepository = () => {
           <View style={styles.separator} />
         </>
       )}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
